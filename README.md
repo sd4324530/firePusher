@@ -1,0 +1,3 @@
+# firePusher
+对smack和javapns进行简单的封装，做到更加方便的向各种设备进行消息推送<br>
+smack实现推送基于openfire服务器
