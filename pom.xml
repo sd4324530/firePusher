@@ -5,7 +5,7 @@
     <groupId>com.github.sd4324530</groupId>
     <artifactId>firePusher</artifactId>
     <packaging>jar</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <url>https://github.com/sd4324530/firePusher.git</url>
 
     <parent>
@@ -25,7 +25,7 @@
         <connection>scm:git:git://github.com/sd4324530/firePusher.git</connection>
         <developerConnection>scm:git:git@github.com:sd4324530/firePusher.git</developerConnection>
         <url>https://github.com/sd4324530/firePusher.git</url>
-        <tag>HEAD</tag>
+        <tag>v0.1</tag>
     </scm>
 
     <developers>
