@@ -49,8 +49,8 @@ Maven 项目引入
 ```xml
 <dependency>
     <groupId>com.github.sd4324530</groupId>
-    <artifactId>fastweixin</artifactId>
-    <version>1.2.9</version>
+    <artifactId>firePusher</artifactId>
+    <version>0.1</version>
 </dependency>
 ```
 
