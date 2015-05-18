@@ -50,7 +50,7 @@ Maven 项目引入
 <dependency>
     <groupId>com.github.sd4324530</groupId>
     <artifactId>firePusher</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 </dependency>
 ```
 
