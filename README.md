@@ -5,7 +5,7 @@ smack实现推送基于openfire服务器
 ## 使用样例(通过苹果服务器推送)
 ```Java
         PusherManager pusherManager = PusherManager.me();
-        IOSParam iosParam = new IOSParam();
+        IOSPushConfig iosParam = new IOSPushConfig();
         iosParam.setP12Path("E:/Certificates.p12");
         iosParam.setPassword("123456");
         Pusher pusher = pusherManager.getPusher(iosParam);
@@ -16,7 +16,7 @@ smack实现推送基于openfire服务器
         pusher.push(simpleFMessage);
         try {
             pusher.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error("关闭连接异常");
         }
         LOG.debug("通过苹果推送服务器发送消息成功......");
@@ -25,7 +25,7 @@ smack实现推送基于openfire服务器
 ## 使用样例(通过openfire服务器推送)
 ```Java
         PusherManager pusherManager = PusherManager.me();
-        OpenfireParam openfireParam = new OpenfireParam();
+        OpenFirePushConfig openfireParam = new OpenFirePushConfig();
         openfireParam.setOpenfireIP("10.20.16.74");
         openfireParam.setOpenfirePort(5222);
         openfireParam.setUserName("admin");
@@ -38,7 +38,7 @@ smack实现推送基于openfire服务器
         pusher.push(simpleFMessage);
         try {
             pusher.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error("关闭连接异常");
         }
         LOG.debug("通过xmpp服务器发送消息成功......");
