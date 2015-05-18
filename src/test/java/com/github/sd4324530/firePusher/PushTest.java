@@ -17,7 +17,7 @@ public class PushTest {
 
     @Test
     public void test() {
-        testOpenfire();
+//        testOpenfire();
 //        testIOS();
     }
 
