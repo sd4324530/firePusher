@@ -5,13 +5,13 @@ package com.github.sd4324530.firePusher.config;
  *
  * @author peiyu
  */
-public interface PushParam {
+public interface PushConfig {
 
     /**
      * 参数类型枚举，目前包括openfire推送服务器以及苹果推送服务器
      */
-    public static enum ParamType {
-        OPENFIRE, IOS
+    enum ConfigType {
+        OPEN_FIRE, IOS
     }
 
     /**
@@ -19,5 +19,9 @@ public interface PushParam {
      *
      * @return 参数类型
      */
-    ParamType getType();
+    ConfigType getType();
+
+    void setDev(boolean dev);
+
+    boolean isDev();
 }

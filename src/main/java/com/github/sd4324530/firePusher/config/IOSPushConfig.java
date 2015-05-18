@@ -5,7 +5,7 @@ package com.github.sd4324530.firePusher.config;
  *
  * @author peiyu
  */
-public class IOSParam implements PushParam {
+public class IOSPushConfig implements PushConfig {
     /**
      * 推送证书地址
      */
@@ -14,6 +14,8 @@ public class IOSParam implements PushParam {
      * 密钥
      */
     private String password;
+
+    private boolean dev;
 
     public String getP12Path() {
         return p12Path;
@@ -37,7 +39,17 @@ public class IOSParam implements PushParam {
      * @return 参数类型
      */
     @Override
-    public ParamType getType() {
-        return ParamType.IOS;
+    public ConfigType getType() {
+        return ConfigType.IOS;
+    }
+
+    @Override
+    public boolean isDev() {
+        return this.dev;
+    }
+
+    @Override
+    public void setDev(boolean dev) {
+        this.dev = dev;
     }
 }

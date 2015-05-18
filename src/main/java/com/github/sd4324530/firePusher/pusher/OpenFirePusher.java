@@ -2,19 +2,18 @@ package com.github.sd4324530.firePusher.pusher;
 
 import com.github.sd4324530.firePusher.FMessage;
 import com.github.sd4324530.firePusher.Pusher;
-import com.github.sd4324530.firePusher.config.OpenfireParam;
+import com.github.sd4324530.firePusher.config.OpenFirePushConfig;
 import com.github.sd4324530.firePusher.exception.FirePusherException;
+import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,27 +21,38 @@ import java.util.List;
  *
  * @author peiyu
  */
-public class OpenFirePusher implements Pusher {
+class OpenFirePusher implements Pusher {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OpenFirePusher.class);
+    private static final Logger  LOG    = LoggerFactory.getLogger(OpenFirePusher.class);
+    private              boolean isOpen = false;
+    private final AbstractXMPPConnection connection;
+    private final String                 serverName;
+    private final String                 key;
 
-    private final XMPPConnection connection;
-
-    private final String serverName;
-
-    public OpenFirePusher(final OpenfireParam openfireParam) {
-        ConnectionConfiguration configuration = new ConnectionConfiguration(openfireParam.getOpenfireIP(), openfireParam.getOpenfirePort());
-        SASLAuthentication.supportSASLMechanism("PLAIN", 0);
-        configuration.setCompressionEnabled(true);
-        configuration.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
-        configuration.setDebuggerEnabled(false);
-        configuration.setReconnectionAllowed(true);
-        configuration.setSendPresence(true);
+    OpenFirePusher(final OpenFirePushConfig openFireConfig) {
+        XMPPTCPConnectionConfiguration configuration = XMPPTCPConnectionConfiguration.builder()
+                .setServiceName(openFireConfig.getServiceName())
+                .setHost(openFireConfig.getServerIP())
+                .setPort(openFireConfig.getServerPort())
+                .setCompressionEnabled(true)
+                .setSecurityMode(ConnectionConfiguration.SecurityMode.disabled)
+                .setDebuggerEnabled(false)
+                .setSendPresence(true)
+                .setUsernameAndPassword(openFireConfig.getUserName(), openFireConfig.getPassword())
+                .build();
         this.connection = new XMPPTCPConnection(configuration);
+        this.serverName = openFireConfig.getServiceName();
+        this.key = openFireConfig.getServerIP() + ":" + openFireConfig.getServerPort();
+        init();
+    }
+
+    void init() {
         try {
-            connection.connect();
-            connection.login(openfireParam.getUserName(), openfireParam.getPassword());
-            this.serverName = connection.getServiceName();
+            if (!this.connection.isConnected()) {
+                this.connection.connect();
+                this.connection.login();
+            }
+            this.isOpen = true;
         } catch (Exception e) {
             LOG.warn("连接openfire服务器异常", e);
             throw new FirePusherException(e);
@@ -51,11 +61,14 @@ public class OpenFirePusher implements Pusher {
 
     @Override
     public void push(final FMessage message) throws FirePusherException {
-        this.push(Arrays.asList(message));
+        this.push(Collections.singletonList(message));
     }
 
     @Override
     public void push(final List<FMessage> messages) throws FirePusherException {
+        if (!isOpen()) {
+            throw new FirePusherException("推送器:" + getKey() + "已经关闭.....");
+        }
         if (null != messages && !messages.isEmpty()) {
             for (FMessage message : messages) {
                 LOG.debug("通过XMPP协议推送消息:{}", message.toString());
@@ -63,7 +76,7 @@ public class OpenFirePusher implements Pusher {
                 msg.setBody(message.getContext());
                 msg.setSubject(message.getTitle());
                 try {
-                    this.connection.sendPacket(msg);
+                    this.connection.sendStanza(msg);
                 } catch (SmackException.NotConnectedException e) {
                     throw new FirePusherException(e);
                 } catch (Exception e) {
@@ -75,17 +88,26 @@ public class OpenFirePusher implements Pusher {
     }
 
     @Override
-    public void close() throws IOException {
-        if (null != this.connection) {
-            try {
-                if (this.connection.isConnected()) {
-                    this.connection.disconnect();
-                }
-            } catch (SmackException.NotConnectedException e) {
-                LOG.warn("断开openfire服务器异常", e);
-            } finally {
-                PusherManager.me().releasePusher(this);
-            }
+    public String getKey() {
+        return this.key;
+    }
+
+    @Override
+    public boolean isOpen() {
+        if (null == this.connection) {
+            this.isOpen = false;
+        } else {
+            this.isOpen = this.connection.isConnected();
         }
+        return this.isOpen;
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (isOpen()) {
+            this.connection.disconnect();
+        }
+        this.isOpen = false;
+//        PusherFactory.me().releasePusher(this);
     }
 }

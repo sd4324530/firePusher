@@ -2,7 +2,6 @@ package com.github.sd4324530.firePusher;
 
 import com.github.sd4324530.firePusher.exception.FirePusherException;
 
-import java.io.Closeable;
 import java.util.List;
 
 /**
@@ -10,7 +9,7 @@ import java.util.List;
  *
  * @author peiyu
  */
-public interface Pusher extends Closeable {
+public interface Pusher extends AutoCloseable {
     /**
      * 推送一条消息
      *
@@ -26,4 +25,8 @@ public interface Pusher extends Closeable {
      * @throws FirePusherException 推送异常
      */
     void push(List<FMessage> messages) throws FirePusherException;
+
+    String getKey();
+
+    boolean isOpen();
 }

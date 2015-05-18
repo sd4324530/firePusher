@@ -45,6 +45,7 @@
     <properties>
         <junit.version>4.12</junit.version>
         <slf4j.version>1.7.12</slf4j.version>
+        <smack.version>4.1.1</smack.version>
     </properties>
 
     <dependencies>
@@ -77,14 +78,21 @@
         <dependency>
             <groupId>org.igniterealtime.smack</groupId>
             <artifactId>smack-extensions</artifactId>
-            <version>4.1.1</version>
+            <version>${smack.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.igniterealtime.smack</groupId>
             <artifactId>smack-tcp</artifactId>
-            <version>4.1.1</version>
+            <version>${smack.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.igniterealtime.smack</groupId>
+            <artifactId>smack-java7</artifactId>
+            <version>${smack.version}</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

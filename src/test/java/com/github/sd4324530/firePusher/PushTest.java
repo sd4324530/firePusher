@@ -1,14 +1,12 @@
 package com.github.sd4324530.firePusher;
 
-import com.github.sd4324530.firePusher.config.IOSParam;
-import com.github.sd4324530.firePusher.config.OpenfireParam;
+import com.github.sd4324530.firePusher.config.IOSPushConfig;
+import com.github.sd4324530.firePusher.config.OpenFirePushConfig;
 import com.github.sd4324530.firePusher.message.SimpleFMessage;
-import com.github.sd4324530.firePusher.pusher.PusherManager;
+import com.github.sd4324530.firePusher.pusher.PusherFactory;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /**
  * @author peiyu
@@ -19,13 +17,13 @@ public class PushTest {
 
     @Test
     public void test() {
-//        testOpenfire();
-        testIOS();
+        testOpenfire();
+//        testIOS();
     }
 
     private void testIOS() {
-        PusherManager pusherManager = PusherManager.me();
-        IOSParam iosParam = new IOSParam();
+        PusherFactory pusherManager = PusherFactory.me();
+        IOSPushConfig iosParam = new IOSPushConfig();
         iosParam.setP12Path("E:/Certificates.p12");
         iosParam.setPassword("123456");
         Pusher pusher = pusherManager.getPusher(iosParam);
@@ -36,19 +34,20 @@ public class PushTest {
         pusher.push(simpleFMessage);
         try {
             pusher.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error("关闭连接异常");
         }
         LOG.debug("通过苹果推送服务器发送消息成功......");
     }
 
     private void testOpenfire() {
-        PusherManager pusherManager = PusherManager.me();
-        OpenfireParam openfireParam = new OpenfireParam();
-        openfireParam.setOpenfireIP("10.20.16.74");
-        openfireParam.setOpenfirePort(5222);
+        PusherFactory pusherManager = PusherFactory.me();
+        OpenFirePushConfig openfireParam = new OpenFirePushConfig();
+        openfireParam.setServerIP("10.20.16.74");
+        openfireParam.setServerPort(5222);
         openfireParam.setUserName("admin");
-        openfireParam.setPassword("123456");
+        openfireParam.setPassword("asdasd");
+        openfireParam.setServiceName("asiadev1");
         Pusher pusher = pusherManager.getPusher(openfireParam);
 
         SimpleFMessage simpleFMessage = new SimpleFMessage();
@@ -58,7 +57,7 @@ public class PushTest {
         pusher.push(simpleFMessage);
         try {
             pusher.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error("关闭连接异常");
         }
         LOG.debug("通过xmpp服务器发送消息成功......");
