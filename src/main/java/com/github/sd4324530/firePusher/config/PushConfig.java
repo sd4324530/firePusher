@@ -21,7 +21,15 @@ public interface PushConfig {
      */
     ConfigType getType();
 
+    /**
+     * 设置是否为开发模式
+     * @param dev 是否为开发模式
+     */
     void setDev(boolean dev);
 
+    /**
+     * 获取是否为开发模式
+     * @return 开发模式
+     */
     boolean isDev();
 }

@@ -1,11 +1,13 @@
 package com.github.sd4324530.firePusher;
 
+import java.io.Serializable;
+
 /**
  * 推送消息接口
  *
  * @author peiyu
  */
-public interface FMessage {
+public interface FMessage extends Serializable {
     /**
      * 获取接受者ID
      *

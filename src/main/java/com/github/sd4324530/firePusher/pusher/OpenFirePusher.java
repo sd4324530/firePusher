@@ -94,11 +94,7 @@ class OpenFirePusher implements Pusher {
 
     @Override
     public boolean isOpen() {
-        if (null == this.connection) {
-            this.isOpen = false;
-        } else {
-            this.isOpen = this.connection.isConnected();
-        }
+        this.isOpen = this.connection.isConnected();
         return this.isOpen;
     }
 

@@ -26,7 +26,15 @@ public interface Pusher extends AutoCloseable {
      */
     void push(List<FMessage> messages) throws FirePusherException;
 
+    /**
+     * 获取推送器唯一标识
+     * @return 推送器唯一标识
+     */
     String getKey();
 
+    /**
+     * 获取当前推送器是否还可用
+     * @return 是否可用
+     */
     boolean isOpen();
 }
