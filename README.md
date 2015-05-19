@@ -4,11 +4,11 @@ smack实现推送基于openfire服务器
 
 ## 使用样例(通过苹果服务器推送)
 ```Java
-        PusherFactory pusherManager = PusherFactory.me();
-        IOSPushConfig iosParam = new IOSPushConfig();
-        iosParam.setP12Path("E:/Certificates.p12");
-        iosParam.setPassword("123456");
-        Pusher pusher = pusherManager.getPusher(iosParam);
+        PusherFactory pusherFactory = PusherFactory.me();
+        IOSPushConfig iosConfig = new IOSPushConfig();
+        iosConfig.setP12Path("E:/Certificates.p12");
+        iosConfig.setPassword("123456");
+        Pusher pusher = pusherFactory.getPusher(iosConfig);
         SimpleFMessage simpleFMessage = new SimpleFMessage();
         simpleFMessage.setContext("test message!");
         simpleFMessage.setTitle("hello test");
@@ -24,13 +24,13 @@ smack实现推送基于openfire服务器
 
 ## 使用样例(通过openfire服务器推送)
 ```Java
-        PusherFactory pusherManager = PusherFactory.me();
-        OpenFirePushConfig openfireParam = new OpenFirePushConfig();
-        openfireParam.setOpenfireIP("10.20.16.74");
-        openfireParam.setOpenfirePort(5222);
-        openfireParam.setUserName("admin");
-        openfireParam.setPassword("123456");
-        Pusher pusher = pusherManager.getPusher(openfireParam);
+        PusherFactory pusherFactory = PusherFactory.me();
+        OpenFirePushConfig openfireConfig = new OpenFirePushConfig();
+        openfireConfig.setOpenfireIP("10.20.16.74");
+        openfireConfig.setOpenfirePort(5222);
+        openfireConfig.setUserName("admin");
+        openfireConfig.setPassword("123456");
+        Pusher pusher = pusherFactory.getPusher(openfireConfig);
         SimpleFMessage simpleFMessage = new SimpleFMessage();
         simpleFMessage.setContext("test message!");
         simpleFMessage.setTitle("hello test");
