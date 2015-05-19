@@ -4,7 +4,7 @@ smack实现推送基于openfire服务器
 
 ## 使用样例(通过苹果服务器推送)
 ```Java
-        PusherManager pusherManager = PusherManager.me();
+        PusherFactory pusherManager = PusherFactory.me();
         IOSPushConfig iosParam = new IOSPushConfig();
         iosParam.setP12Path("E:/Certificates.p12");
         iosParam.setPassword("123456");
@@ -24,7 +24,7 @@ smack实现推送基于openfire服务器
 
 ## 使用样例(通过openfire服务器推送)
 ```Java
-        PusherManager pusherManager = PusherManager.me();
+        PusherFactory pusherManager = PusherFactory.me();
         OpenFirePushConfig openfireParam = new OpenFirePushConfig();
         openfireParam.setOpenfireIP("10.20.16.74");
         openfireParam.setOpenfirePort(5222);
