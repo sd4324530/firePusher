@@ -1,6 +1,7 @@
 # firePusher
 对smack和javapns进行简单的封装，做到更加方便的向各种设备进行消息推送<br>
-smack实现推送基于openfire服务器
+smack实现推送基于openfire服务器<br>
+最低需要jdk 1.7
 
 ## 使用样例(通过苹果服务器推送)
 ```Java
